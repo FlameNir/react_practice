@@ -41,6 +41,7 @@ const App = () => {
   // });
   const textOnThePage = {
     review: 'Оставьте отзыв',
+    rewritereview: 'Изменить отзыв',
   };
   //-----------------------------------------------------------------------------
   // type Review = {
@@ -148,12 +149,13 @@ const App = () => {
               <TouchableOpacity
                 style={styles.leaveReviewButton}
                 onPress={() => {
-                  console.log('Кнопка нажата');
                   setModalVisible(true);
                 }}
               >
                 <Text style={styles.leaveReviewText}>
-                  {textOnThePage.review}
+                  {selectedRating
+                    ? textOnThePage.rewritereview
+                    : textOnThePage.review}
                 </Text>
               </TouchableOpacity>
             </>
