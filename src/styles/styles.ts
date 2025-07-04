@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-
+const screenWidth = Dimensions.get('window').width;
 export const styles = StyleSheet.create({
   container: {
     padding: 10,
@@ -17,16 +17,38 @@ export const styles = StyleSheet.create({
     // backgroundColor: '#1f1',
   },
   ratingBox: {
-    width: 90,
+    width: screenWidth * 0.3,
     alignItems: 'center',
     marginTop: 4,
     // borderWidth: 1, //Удалить
   },
   avgRating: {
-    fontSize: 48,
+    fontSize: 72,
     fontWeight: 'bold',
     color: '#006CB1',
   },
+  //--------------------------------------------
+  //гистограмма
+  histogramBox: {
+    justifyContent: 'center',
+    marginLeft: 12,
+  },
+  histogramRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  histogramBar: {
+    height: 8,
+    backgroundColor: '#006CB1',
+    marginHorizontal: 6,
+    borderRadius: 4,
+  },
+  histogramCount: {
+    width: 20,
+    textAlign: 'left',
+  },
+  //--------------------------------------------------------------
   smallText: {
     fontSize: 14,
     color: '#333',

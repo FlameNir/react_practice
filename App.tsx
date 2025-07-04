@@ -33,6 +33,8 @@ const App = () => {
   const [selectedRating, setSelectedRating] = useState<number>(0);
   const [comment, setComment] = useState<string>('');
   const [filteredData, setFilteredData] = useState<Review[]>([]);
+  const [reviewCount, setReviewCount] = useState<number>(0);
+  const [histogramData, setHistogramData] = useState<number[]>([0, 0, 0, 0, 0]);
   // const today = new Date().toLocaleDateString('ru-RU', {
   //   day: '2-digit',
   //   month: 'long',
@@ -74,6 +76,15 @@ const App = () => {
         const scores = filtered.map((item: any) => parseFloat(item.score));
         const sum = scores.reduce((a, b) => a + b, 0) / scores.length;
         setRating(parseFloat(sum.toFixed(1)));
+
+        // Количество отзывов
+        setReviewCount(filtered.length);
+        const histogram = [0, 0, 0, 0, 0];
+        scores.forEach(score => {
+          const idx = Math.floor(score) - 1;
+          if (idx >= 0 && idx <= 4) histogram[idx]++;
+        });
+        setHistogramData(histogram.reverse());
 
         const user = filtered.find((item: any) => item.user === 39);
         if (user) {
@@ -119,9 +130,21 @@ const App = () => {
               <View style={styles.topRow}>
                 <View style={styles.ratingBox}>
                   <Text style={styles.avgRating}>{rating}</Text>
-                  <Text style={styles.smallText}>Тут будет кол-во отзывов</Text>
+                  <Text style={styles.smallText}>{reviewCount} отзывов</Text>
+                </View>
+                <View style={styles.histogramBox}>
+                  {histogramData.map((count, index) => (
+                    <View key={index} style={styles.histogramRow}>
+                      <Text>{5 - index}</Text>
+                      <View
+                        style={[styles.histogramBar, { width: count * 10 }]}
+                      />
+                      {/* <Text style={styles.histogramCount}>{count}</Text> */}
+                    </View>
+                  ))}
                 </View>
               </View>
+
               <TouchableOpacity
                 style={styles.leaveReviewButton}
                 onPress={() => {
