@@ -73,7 +73,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 2,
   },
   reviewText: {
-    borderWidth: 1,
+    // borderWidth: 1, //Удалить
     fontSize: 14,
     color: '#000',
   },

@@ -16,19 +16,6 @@ type ReviewModalProps = {
   setRating: (value: number) => void;
   sendData: () => void;
   fetchData: () => void;
-
-  //   visible={modalVisible}
-  // onClose={() => setModalVisible(false)}
-  // name={name}
-  // setName={setName}
-  // user={user}
-  // setUser={setUser}
-  // comment={comment}
-  // setComment={setComment}
-  // rating={selectedRating}
-  // setRating={setSelectedRating}
-  // sendData={SendData}
-  // fetchData={fetchData}
 };
 const TEXT = {
   writenameerr: 'Введите имя',
@@ -40,6 +27,8 @@ const TEXT = {
 export const ReviewModal = ({
   visible,
   onClose,
+  user,
+  setUser,
   name,
   setName,
   comment,
@@ -50,6 +39,7 @@ export const ReviewModal = ({
   fetchData,
 }: ReviewModalProps) => {
   const [nameError, setNameError] = useState(false);
+  const [inputHeight, setInputHeight] = useState(100); // начальная высота
 
   return (
     <Modal visible={visible} animationType="slide">
@@ -90,18 +80,41 @@ export const ReviewModal = ({
             placeholder={TEXT.rewiewtext}
             value={comment}
             onChangeText={setComment}
-            style={styles.commentInput}
+            style={[
+              styles.commentInput,
+              { height: Math.max(100, inputHeight) },
+            ]}
             multiline
+            maxLength={500}
+            onContentSizeChange={event =>
+              setInputHeight(event.nativeEvent.contentSize.height + 10)
+            }
           />
+          <Text
+            style={{
+              alignSelf: 'flex-end',
+              marginBottom: 10,
+              color:
+                comment.length > 450
+                  ? 'red'
+                  : comment.length > 400
+                  ? 'orange'
+                  : '#666',
+            }}
+          >
+            {comment.length} / 500
+          </Text>
+
           <TouchableOpacity
             style={styles.modalButton}
-            onPress={() => {
-              if (!name.trim()) {
-                setName('');
-                setNameError(true);
-                return;
-              }
-              sendData();
+            onPress={async () => {
+              //Проверка на имя, но имена пока статик
+              // if (!name.trim()) {
+              //   setName('');
+              //   setNameError(true);
+              //   return;
+              // }
+              await sendData();
               onClose();
               fetchData();
             }}

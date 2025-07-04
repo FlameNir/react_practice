@@ -124,7 +124,10 @@ const App = () => {
               </View>
               <TouchableOpacity
                 style={styles.leaveReviewButton}
-                onPress={() => setModalVisible(true)}
+                onPress={() => {
+                  console.log('Кнопка нажата');
+                  setModalVisible(true);
+                }}
               >
                 <Text style={styles.leaveReviewText}>
                   {textOnThePage.review}
@@ -149,7 +152,9 @@ const App = () => {
                   </Text>
                 ))}
               </View>
-              <Text style={styles.reviewText}>{item.comm}</Text>
+              {item.comm && item.comm.trim() !== '' && (
+                <Text style={styles.reviewText}>{item.comm}</Text>
+              )}
             </View>
           )}
           contentContainerStyle={styles.container}
