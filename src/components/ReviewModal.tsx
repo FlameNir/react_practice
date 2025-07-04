@@ -6,6 +6,8 @@ import { styles } from '../styles/styles.ts';
 type ReviewModalProps = {
   visible: boolean;
   onClose: () => void;
+  user: number;
+  setUser: (value: number) => void;
   name: string;
   setName: (text: string) => void;
   comment: string;
@@ -14,10 +16,26 @@ type ReviewModalProps = {
   setRating: (value: number) => void;
   sendData: () => void;
   fetchData: () => void;
+
+  //   visible={modalVisible}
+  // onClose={() => setModalVisible(false)}
+  // name={name}
+  // setName={setName}
+  // user={user}
+  // setUser={setUser}
+  // comment={comment}
+  // setComment={setComment}
+  // rating={selectedRating}
+  // setRating={setSelectedRating}
+  // sendData={SendData}
+  // fetchData={fetchData}
 };
 const TEXT = {
+  writenameerr: 'Введите имя',
+  writename: 'Имя',
   newrewiew: 'Новый отзыв',
   rewiewtext: 'Поделитесь впечатлениями (необязательно)',
+  sendrewiew: 'Отправить отзыв',
 };
 export const ReviewModal = ({
   visible,
@@ -38,9 +56,10 @@ export const ReviewModal = ({
       <SafeAreaView style={styles.modalContainer}>
         <View style={styles.modalBox}>
           <Text style={styles.modalTitle}>{TEXT.newrewiew}</Text>
-
+          {/* -------------------------------------------------------------------------
+           Если не ввел имя, то выводит ошибку */}
           <TextInput
-            placeholder={nameError ? 'Введите имя' : 'Имя'}
+            placeholder={nameError ? TEXT.writenameerr : TEXT.writename}
             placeholderTextColor={nameError ? 'red' : '#999'}
             value={name}
             onChangeText={text => {
@@ -52,8 +71,8 @@ export const ReviewModal = ({
               nameError && { borderColor: 'red' }, // красная рамка при ошибке
             ]}
           />
-
-          {/* Звёзды */}
+          {/* ------------------------------------------------------------------------- 
+          Вывод звезд, подкачиваем */}
           <View style={styles.starsRow}>
             {[1, 2, 3, 4, 5].map(star => (
               <TouchableOpacity key={star} onPress={() => setRating(star)}>
@@ -68,13 +87,12 @@ export const ReviewModal = ({
             ))}
           </View>
           <TextInput
-            placeholder="Текст отзыва"
+            placeholder={TEXT.rewiewtext}
             value={comment}
             onChangeText={setComment}
             style={styles.commentInput}
             multiline
           />
-
           <TouchableOpacity
             style={styles.modalButton}
             onPress={() => {
@@ -88,7 +106,7 @@ export const ReviewModal = ({
               fetchData();
             }}
           >
-            <Text style={styles.modalButtonText}>Отправить отзыв</Text>
+            <Text style={styles.modalButtonText}>{TEXT.sendrewiew}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
