@@ -39,30 +39,31 @@ export const ReviewModal = ({
   fetchData,
 }: ReviewModalProps) => {
   const [nameError, setNameError] = useState(false);
-  const [inputHeight, setInputHeight] = useState(100); // начальная высота
+  const [inputHeight, setInputHeight] = useState(100); //Нужно для расширения окна ввода при вводе коментария
 
   return (
     <Modal visible={visible} animationType="slide">
       <SafeAreaView style={styles.modalContainer}>
         <View style={styles.modalBox}>
           <Text style={styles.modalTitle}>{TEXT.newrewiew}</Text>
-          {/* -------------------------------------------------------------------------
-           Если не ввел имя, то выводит ошибку */}
-          <TextInput
-            placeholder={nameError ? TEXT.writenameerr : TEXT.writename}
-            placeholderTextColor={nameError ? 'red' : '#999'}
-            value={name}
-            onChangeText={text => {
-              setName(text);
-              if (text.trim()) setNameError(false); // убрать ошибку при вводе
-            }}
-            style={[
-              styles.nameInput,
-              nameError && { borderColor: 'red' }, // красная рамка при ошибке
-            ]}
-          />
-          {/* ------------------------------------------------------------------------- 
-          Вывод звезд, подкачиваем */}
+          <Text
+            //   placeholder={nameError ? TEXT.writenameerr : TEXT.writename}
+            //   placeholderTextColor={nameError ? 'red' : '#999'}
+            //   value={name}
+            //   onChangeText={text => {
+            //     setName(text);
+            //     if (text.trim()) setNameError(false); // убрать ошибку при вводе
+            //   }}
+            style={[styles.nameInput, nameError && { borderColor: 'red' }]}
+          >
+            {user}-{name}
+          </Text>
+
+          {/* 
+          -------------------------------------------------------------------------------
+          Вывод звезд, подкачиваем 
+          -------------------------------------------------------------------------------*/}
+
           <View style={styles.starsRow}>
             {[1, 2, 3, 4, 5].map(star => (
               <TouchableOpacity key={star} onPress={() => setRating(star)}>
@@ -76,6 +77,12 @@ export const ReviewModal = ({
               </TouchableOpacity>
             ))}
           </View>
+
+          {/* 
+          -------------------------------------------------------------------------------
+          Вывод коментария с ограничением 500 симоволов 
+          -------------------------------------------------------------------------------*/}
+
           <TextInput
             placeholder={TEXT.rewiewtext}
             value={comment}
@@ -104,7 +111,10 @@ export const ReviewModal = ({
           >
             {comment.length} / 500
           </Text>
-
+          {/* 
+          -------------------------------------------------------------------------------
+          Просто кнопка отправки с ожиданием ответа сервера
+          -------------------------------------------------------------------------------*/}
           <TouchableOpacity
             style={styles.modalButton}
             onPress={async () => {

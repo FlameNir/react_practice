@@ -40,8 +40,22 @@ export const styles = StyleSheet.create({
   },
   histogramBar: {
     height: 8,
+    position: 'absolute',
     backgroundColor: '#006CB1',
     marginHorizontal: 6,
+    borderRadius: 4,
+  },
+  histogramLayer: {
+    flex: 1,
+    height: 10,
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  histogramBackgroundBar: {
+    width: screenWidth * 0.4,
+    marginHorizontal: 6,
+    height: 8,
+    backgroundColor: '#eee',
     borderRadius: 4,
   },
   histogramCount: {
@@ -49,6 +63,7 @@ export const styles = StyleSheet.create({
     textAlign: 'left',
   },
   //--------------------------------------------------------------
+  //Кнопка оставить отзыв
   smallText: {
     fontSize: 14,
     color: '#333',
@@ -65,7 +80,9 @@ export const styles = StyleSheet.create({
     color: '#006CB1',
     fontWeight: '600',
     fontSize: 16,
+    // borderWidth: 1, //Удалить
   },
+
   //----Отзывы
   reviewItem: {
     padding: 12,
@@ -110,6 +127,7 @@ export const styles = StyleSheet.create({
   },
   modalBox: {
     flex: 1,
+    //marginHorizontal: 10,
   },
   modalTitle: {
     fontSize: 20,
@@ -132,6 +150,7 @@ export const styles = StyleSheet.create({
     borderColor: '#ccc',
     padding: 8,
     marginBottom: 20,
+    borderRadius: 6,
   },
   modalButton: {
     backgroundColor: '#006CB1',
