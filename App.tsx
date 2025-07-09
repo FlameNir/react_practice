@@ -17,7 +17,7 @@ import {
 import { styles } from './src/styles/styles.ts';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { RadioButton } from 'react-native-paper';
-
+//import SortIcon from './assets/images/sort.svg';
 import { ReviewModal } from './src/components/ReviewModal';
 //import { DeviceInfo } from 'react-native/types_generated/index';
 const screenWidth = Dimensions.get('window').width;
@@ -39,7 +39,7 @@ const App = () => {
   const [reviewCount, setReviewCount] = useState<number>(0);
   const [histogramData, setHistogramData] = useState<number[]>([0, 0, 0, 0, 0]);
   const [sortOption, setSortOption] = useState<'user' | 'score'>('user');
-
+  const [visibleSortMenu, setVisibleSortMenu] = useState(false);
   // const today = new Date().toLocaleDateString('ru-RU', {
   //   day: '2-digit',
   //   month: 'long',
@@ -169,27 +169,16 @@ const App = () => {
               -------------------------------------------------------------------------------
               Кнопки сортировки отзывов
               -------------------------------------------------------------------------------*/}
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ alignItems: 'flex-end' }}>
                 <TouchableOpacity
-                  style={{ marginRight: 20 }}
-                  onPress={() => setSortOption('user')}
+                  style={{ padding: 4 }}
+                  onPress={() => setVisibleSortMenu(true)}
                 >
-                  <Text
-                    style={{
-                      fontWeight: sortOption === 'user' ? 'bold' : 'normal',
-                    }}
-                  >
-                    {textOnThePage.sorttext1}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setSortOption('score')}>
-                  <Text
-                    style={{
-                      fontWeight: sortOption === 'score' ? 'bold' : 'normal',
-                    }}
-                  >
-                    {textOnThePage.sorttext2}
-                  </Text>
+                  <Image
+                    source={require('./assets/images/icons8-sort-50.png')} // укажи свой путь
+                    style={{ width: 24, height: 24 }}
+                    resizeMode="contain"
+                  />
                 </TouchableOpacity>
               </View>
             </>
@@ -224,8 +213,45 @@ const App = () => {
         />
         {/* 
         -------------------------------------------------------------------------------
-        Модалка
+        Модалки
         -------------------------------------------------------------------------------*/}
+        <Modal
+          visible={visibleSortMenu}
+          animationType="fade"
+          transparent
+          onRequestClose={() => setVisibleSortMenu(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalSort}>
+              <RadioButton.Group
+                onValueChange={value => {
+                  setSortOption(value as 'user' | 'score');
+                }}
+                value={sortOption}
+              >
+                <RadioButton.Item
+                  label={textOnThePage.sorttext1}
+                  value="user"
+                />
+                <RadioButton.Item
+                  label={textOnThePage.sorttext2}
+                  value="score"
+                />
+              </RadioButton.Group>
+              <View style={{ alignItems: 'center', marginTop: 10 }}>
+                <TouchableOpacity
+                  onPress={() => setVisibleSortMenu(false)}
+                  style={styles.applyButton}
+                >
+                  <Text style={styles.applyButtonText}>
+                    Применить изменения
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
         <ReviewModal
           visible={modalVisible}
           onClose={() => setModalVisible(false)}

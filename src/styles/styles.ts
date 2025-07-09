@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#006CB1',
     marginHorizontal: 6,
-    borderRadius: 4,
+    borderRadius: 6,
   },
   histogramLayer: {
     flex: 1,
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 6,
     height: 8,
     backgroundColor: '#eee',
-    borderRadius: 4,
+    borderRadius: 6,
   },
   histogramCount: {
     width: 20,
@@ -74,7 +74,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 6,
     alignItems: 'center',
-    marginBottom: 20,
   },
   leaveReviewText: {
     color: '#006CB1',
@@ -116,6 +115,52 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: '#000',
   },
+  //------------------------------------------------------------------------
+  //Модалка выпадающий список
+  //
+
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+  },
+
+  modalSort: {
+    backgroundColor: '#fff',
+    borderRadius: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    width: screenWidth * 0.8,
+    position: 'relative',
+    // borderWidth: 1, //Удалить
+  },
+
+  closeButton: {
+    padding: 12,
+    borderRadius: 6,
+    alignItems: 'center',
+  },
+
+  closeText: {
+    //borderWidth: 1, //Удалить
+    fontSize: 18,
+    color: '#000',
+    fontWeight: 'bold',
+  },
+  applyButton: {
+    backgroundColor: '#4A90E2', // Голубой или другой фирменный цвет
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+  },
+
+  applyButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
   //------------------------------------------------------------------------
   //Модалка
   //
