@@ -27,6 +27,7 @@ type Review = {
   agnks: number;
   comm: string | null;
   name: string;
+  date: string;
 };
 const App = () => {
   const [rating, setRating] = useState<number | null>(null); //средний рейтинг
@@ -38,22 +39,30 @@ const App = () => {
   const [filteredData, setFilteredData] = useState<Review[]>([]);
   const [reviewCount, setReviewCount] = useState<number>(0);
   const [histogramData, setHistogramData] = useState<number[]>([0, 0, 0, 0, 0]);
-  const [sortOption, setSortOption] = useState<'user' | 'score'>('user');
+  const [sortOption, setSortOption] = useState<'user' | 'score' | 'data'>(
+    'user',
+  );
   const [visibleSortMenu, setVisibleSortMenu] = useState(false);
-  // const today = new Date().toLocaleDateString('ru-RU', {
-  //   day: '2-digit',
-  //   month: 'long',
-  // });
+  const [date, setDate] = useState<Date | null>(null);
+
   const textOnThePage = {
     review: 'Оставьте отзыв',
     rewritereview: 'Изменить отзыв',
     sorttext1: 'По умолчанию',
     sorttext2: 'По рейтингу',
+    sorttext3: 'По дате',
   };
   //Функция для получения данных для Flatlist
   const getSortedData = () => {
     if (sortOption === 'score') {
       return [...filteredData].sort((a, b) => b.score - a.score);
+    }
+    if (sortOption === 'data') {
+      return [...filteredData].sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB - dateA; // по убыванию, новые выше
+      });
     }
     return [...filteredData].sort((a, b) => a.user - b.user);
   };
@@ -66,21 +75,23 @@ const App = () => {
         setFilteredData(filtered);
 
         const scores = filtered.map((item: any) => parseFloat(item.score));
-        const sum = scores.reduce((a, b) => a + b, 0) / scores.length;
+        const sum =
+          scores.reduce((a: number, b: number) => a + b, 0) / scores.length;
         setRating(parseFloat(sum.toFixed(1)));
 
         // Количество отзывов + гистошр
         setReviewCount(filtered.length);
         const histogram = [0, 0, 0, 0, 0];
-        scores.forEach(score => {
+        scores.forEach((score: number) => {
           const idx = score - 1;
 
           if (idx >= 0 && idx <= 4) histogram[idx]++;
         });
         setHistogramData(histogram.reverse());
-        const currentUser = filtered.find((item: any) => item.user === 38);
+        const currentUser = filtered.find((item: any) => item.user === 37);
         if (currentUser) {
           setUser(currentUser.user);
+          setDate(currentUser.date);
           setSelectedRating(currentUser.score);
           setName(currentUser.name);
           setComment(currentUser.comm ?? '');
@@ -92,7 +103,7 @@ const App = () => {
   }, []);
   const SendData = async () => {
     //const id = 33
-    setUser(38); // - Это ID куда я оставляю свой комент
+    setUser(37); // - Это ID куда я оставляю свой комент
     const agnks = 449035; // ---?????
     const response = await fetch('https://gboinform.ru/set_score.php', {
       method: 'POST',
@@ -100,12 +111,14 @@ const App = () => {
         'Content-Type': 'application/json',
       },
       //body: `id=${user}&user=${user}&agnks=${agnks}&score=${score}`,
+
       body: JSON.stringify({
         user: user,
         name: name,
         agnks: agnks,
         score: selectedRating,
         comm: comment,
+        date: date,
       }),
     });
 
@@ -190,19 +203,25 @@ const App = () => {
           renderItem={({ item }) => (
             <View style={styles.reviewItem}>
               <Text style={styles.reviewName}>{item.name}</Text>
-              <View style={styles.reviewStar}>
-                {[1, 2, 3, 4, 5].map(star => (
-                  <Text
-                    key={star}
-                    style={
-                      star <= item.score
-                        ? styles.reviewStarSelected
-                        : styles.reviewStarUnSelected
-                    }
-                  >
-                    {star <= item.score ? '★' : '☆'}
-                  </Text>
-                ))}
+
+              <View style={{ flexDirection: 'row' }}>
+                <View style={styles.reviewStar}>
+                  {[1, 2, 3, 4, 5].map(star => (
+                    <Text
+                      key={star}
+                      style={
+                        star <= item.score
+                          ? styles.reviewStarSelected
+                          : styles.reviewStarUnSelected
+                      }
+                    >
+                      {star <= item.score ? '★' : '☆'}
+                    </Text>
+                  ))}
+                </View>
+                <View style={{ justifyContent: 'center' }}>
+                  <Text style={styles.reviewData}>{item.date}</Text>
+                </View>
               </View>
               {item.comm && item.comm.trim() !== '' && (
                 <Text style={styles.reviewText}>{item.comm}</Text>
@@ -225,7 +244,7 @@ const App = () => {
             <View style={styles.modalSort}>
               <RadioButton.Group
                 onValueChange={value => {
-                  setSortOption(value as 'user' | 'score');
+                  setSortOption(value as 'user' | 'score' | 'data');
                 }}
                 value={sortOption}
               >
@@ -236,6 +255,10 @@ const App = () => {
                 <RadioButton.Item
                   label={textOnThePage.sorttext2}
                   value="score"
+                />
+                <RadioButton.Item
+                  label={textOnThePage.sorttext3}
+                  value="data"
                 />
               </RadioButton.Group>
               <View style={{ alignItems: 'center', marginTop: 10 }}>

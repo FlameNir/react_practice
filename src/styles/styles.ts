@@ -97,6 +97,8 @@ export const styles = StyleSheet.create({
   reviewStar: {
     flexDirection: 'row',
     // borderWidth: 1, //Удалить
+    justifyContent: 'center',
+    //gap: 8,
   },
   reviewStarSelected: {
     fontSize: 16,
@@ -114,6 +116,16 @@ export const styles = StyleSheet.create({
     // borderWidth: 1, //Удалить
     fontSize: 14,
     color: '#000',
+  },
+  reviewData: {
+    // borderWidth: 1, //Удалить
+    marginLeft: 20,
+    //fontWeight: 'bold',
+    fontSize: 13,
+    color: '#006CB1',
+    // borderWidth: 1, //Удалить
+    justifyContent: 'center',
+    gap: 8,
   },
   //------------------------------------------------------------------------
   //Модалка выпадающий список
