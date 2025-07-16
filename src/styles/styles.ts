@@ -133,43 +133,70 @@ export const styles = StyleSheet.create({
 
   modalOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
-
-  modalSort: {
+  modalBottomSheet: {
+    position: 'absolute', //Прикольная штука, конкретно тут нужна для размытия за скругленными краями
+    bottom: 0,
+    width: screenWidth,
+    // borderWidth: 1, //Удалить
     backgroundColor: '#fff',
-    borderRadius: 6,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    width: screenWidth * 0.8,
-    position: 'relative',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 30,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 15,
+    zIndex: 10,
     // borderWidth: 1, //Удалить
   },
-
-  closeButton: {
-    padding: 12,
-    borderRadius: 6,
+  closeButtonText: {
+    fontSize: 26,
+    color: '#555',
+  },
+  modalTitle1: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 10,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  actionButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  resetButton: {
+    backgroundColor: '#F0F0F0',
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 10,
+    marginRight: 10,
     alignItems: 'center',
   },
 
-  closeText: {
-    //borderWidth: 1, //Удалить
-    fontSize: 18,
-    color: '#000',
-    fontWeight: 'bold',
-  },
-  applyButton: {
-    backgroundColor: '#4A90E2', // Голубой или другой фирменный цвет
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 6,
+  doneButton: {
+    backgroundColor: '#006CB1',
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
   },
 
-  applyButtonText: {
+  resetText: {
+    color: '#000',
+    fontWeight: '500',
+  },
+  doneText: {
     color: '#fff',
-    fontSize: 16,
     fontWeight: '600',
   },
 
