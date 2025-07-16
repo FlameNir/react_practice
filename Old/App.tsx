@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
+  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   FlatList,
+  StyleSheet,
+  Button,
   Dimensions,
+  Alert,
   Modal,
+  Pressable,
   Image,
+  ScrollView,
 } from 'react-native';
 import { styles } from '@styles/styles.ts';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -24,7 +30,7 @@ type Review = {
   name: string;
   date: string;
 };
-const ReviewsScreen = () => {
+const App = () => {
   const [rating, setRating] = useState<number | null>(null); //средний рейтинг
   const [user, setUser] = useState<number>(0);
   const [name, setName] = useState<string>('');
@@ -306,4 +312,4 @@ const ReviewsScreen = () => {
   );
 };
 
-export default ReviewsScreen;
+export default App;
