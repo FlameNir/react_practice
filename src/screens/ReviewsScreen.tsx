@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import { RadioButton } from 'react-native-paper';
 //import SortIcon from './assets/images/sort.svg';
 import { ReviewModal } from '@components/ReviewModal';
 //import { DeviceInfo } from 'react-native/types_generated/index';
+import { useFocusEffect } from '@react-navigation/native';
 const screenWidth = Dimensions.get('window').width;
 type Review = {
   score: number;
@@ -85,6 +86,7 @@ const ReviewsScreen = () => {
 
           if (idx >= 0 && idx <= 4) histogram[idx]++;
         });
+        console.log(filtered);
         setHistogramData(histogram.reverse());
         const currentUser = filtered.find((item: any) => item.user === 37);
         if (currentUser) {
@@ -123,6 +125,11 @@ const ReviewsScreen = () => {
     const answerServer = await response.text();
     console.log('Ответ от сервера:', answerServer);
   };
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, []),
+  );
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
