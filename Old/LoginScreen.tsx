@@ -72,10 +72,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   logo: {
-    width: 160,
-    height: 160,
+    width: 200,
+    height: 200,
     alignSelf: 'center',
-    marginBottom: 32,
+    //marginBottom: 32,
   },
   input: {
     borderWidth: 1,
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   loginButton: {
     backgroundColor: '#3897f0',
     borderRadius: 6,
+    width: 300,
     paddingVertical: 12,
     alignItems: 'center',
     marginVertical: 10,

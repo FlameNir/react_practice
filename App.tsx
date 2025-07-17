@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Button, StyleSheet } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 
-import ReviewsScreen from '@screens/ReviewsScreen';
+import ReviewScreen from '@screens/ReviewScreen';
 import LoginScreen from '@screens/LoginScreen';
 
 enableScreens();
@@ -43,7 +43,7 @@ const App = () => {
         />
         <Stack.Screen
           name="Reviews"
-          component={ReviewsScreen}
+          component={ReviewScreen}
           options={{ title: 'Отзывы' }}
         />
         <Stack.Screen
