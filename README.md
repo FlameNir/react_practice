@@ -21,7 +21,7 @@ src/
 │           ├── modalForm.ts
 │           ├── modalFilter.ts
 │           └── index.ts     # Объединение стилей в 1
-
+│
 ├── styles/                  # Глобальные стили
 │   └── colors.ts            # Цвета
 ├── App.tsx                  # Временный вызов компкомпонентов
