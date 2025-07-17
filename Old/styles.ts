@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
-export const styles1 = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     padding: 10,
     backgroundColor: '#fff',

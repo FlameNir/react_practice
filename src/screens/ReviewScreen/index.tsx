@@ -16,6 +16,8 @@ import { RadioButton } from 'react-native-paper';
 import { ReviewModal } from '@components/ReviewModal';
 //import { DeviceInfo } from 'react-native/types_generated/index';
 import { useFocusEffect } from '@react-navigation/native';
+import { SortModal } from '@components/SortModal';
+
 const screenWidth = Dimensions.get('window').width;
 type Review = {
   score: number;
@@ -245,54 +247,12 @@ const ReviewsScreen = () => {
         -------------------------------------------------------------------------------
         Модалки
         -------------------------------------------------------------------------------*/}
-        <Modal
+        <SortModal
           visible={visibleSortMenu}
-          animationType="fade"
-          transparent
-          onRequestClose={() => setVisibleSortMenu(false)}
-        >
-          <TouchableWithoutFeedback onPress={() => setVisibleSortMenu(false)}>
-            <View style={styles.modalOverlay} />
-          </TouchableWithoutFeedback>
-
-          <View style={styles.modalBottomSheet}>
-            <Text style={styles.modalTitle1}>Сортировать по</Text>
-
-            <RadioButton.Group
-              onValueChange={value => {
-                setSortOption(
-                  value as 'user' | 'scoredown' | 'data' | 'scoreup',
-                );
-              }}
-              value={sortOption}
-            >
-              <RadioButton.Item label="Умолчанию" value="user" />
-              <RadioButton.Item label="Сначала новые" value="data" />
-              <RadioButton.Item label="Возрастанию рейтинга " value="scoreup" />
-              <RadioButton.Item label="Убыванию рейтинга " value="scoredown" />
-            </RadioButton.Group>
-
-            {/* Bottom buttons */}
-            <View style={styles.buttonRow}>
-              <TouchableOpacity
-                onPress={() => {
-                  setSortOption('user');
-                  setVisibleSortMenu(false);
-                }}
-                style={[styles.actionButton, styles.resetButton]}
-              >
-                <Text style={styles.resetText}>Отмена</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => setVisibleSortMenu(false)}
-                style={[styles.actionButton, styles.doneButton]}
-              >
-                <Text style={styles.doneText}>Применить</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+          onClose={() => setVisibleSortMenu(false)}
+        />
 
         <ReviewModal
           visible={modalVisible}

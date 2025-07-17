@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Metrics } from '@styles/metrics';
 
-export const modalFilterStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',

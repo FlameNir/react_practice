@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Metrics } from '@styles/metrics';
+import { Colors } from '@styles/colors';
 
 export const histogramStyles = StyleSheet.create({
   histogramBox: {
@@ -14,7 +15,7 @@ export const histogramStyles = StyleSheet.create({
   histogramBar: {
     height: 8,
     position: 'absolute',
-    backgroundColor: '#006CB1',
+    backgroundColor: Colors.primary,
     marginHorizontal: 6,
     borderRadius: 6,
   },
@@ -28,7 +29,7 @@ export const histogramStyles = StyleSheet.create({
     width: Metrics.screenWidth * 0.4,
     marginHorizontal: 6,
     height: 8,
-    backgroundColor: '#eee',
+    backgroundColor: Colors.primaryLight,
     borderRadius: 6,
   },
   histogramCount: {

@@ -9,11 +9,11 @@ import {
   Modal,
   Image,
 } from 'react-native';
-import { styles } from '@styles/styles.ts';
+import { styles } from './styles.ts';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { RadioButton } from 'react-native-paper';
 //import SortIcon from './assets/images/sort.svg';
-import { ReviewModal } from '@components/ReviewModal';
+import { ReviewModal } from 'Old/ReviewModal';
 //import { DeviceInfo } from 'react-native/types_generated/index';
 import { useFocusEffect } from '@react-navigation/native';
 const screenWidth = Dimensions.get('window').width;

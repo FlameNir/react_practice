@@ -1,5 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
-
+import { StyleSheet } from 'react-native';
 import { Metrics } from '@styles/metrics.ts';
 import { Colors } from '@styles/colors';
 

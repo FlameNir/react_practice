@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const modalFormStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     backgroundColor: '#fff',
