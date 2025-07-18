@@ -12,4 +12,5 @@ export const Colors = {
   textGray: '#555555',
   starGold: '#FFD700',
   overlay: 'rgba(0,0,0,0.5)',
+  error: '#D64545',
 };
