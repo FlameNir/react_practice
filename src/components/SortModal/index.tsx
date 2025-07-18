@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import { styles } from './styles';
+import { styles } from './styles.ts';
 
 type Props = {
   visible: boolean;

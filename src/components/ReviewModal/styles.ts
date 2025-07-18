@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-
+import { Colors } from '@styles/colors';
 export const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     padding: 20,
   },
   modalBox: {
@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   },
   nameInput: {
     borderBottomWidth: 1,
-    borderColor: '#ccc',
+    borderColor: Colors.textPlaceholder,
     fontSize: 16,
     marginBottom: 16,
   },
@@ -25,19 +25,19 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     textAlignVertical: 'top',
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: Colors.textPlaceholder,
     padding: 8,
     marginBottom: 20,
     borderRadius: 6,
   },
   modalButton: {
-    backgroundColor: '#006CB1',
+    backgroundColor: Colors.primary,
     padding: 12,
     borderRadius: 6,
     alignItems: 'center',
   },
   modalButtonText: {
-    color: '#fff',
+    color: Colors.white,
     fontWeight: 'bold',
     fontSize: 16,
   },
@@ -49,12 +49,12 @@ export const styles = StyleSheet.create({
   },
   starUnSelected: {
     fontSize: 46,
-    color: '#ccc',
+    color: Colors.gray,
     marginHorizontal: 4,
   },
   starSelected: {
     fontSize: 46,
-    color: '#FFD700',
+    color: Colors.starGold,
     marginHorizontal: 4,
   },
 });

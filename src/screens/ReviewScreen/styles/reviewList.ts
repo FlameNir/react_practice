@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
+import { Colors } from '@styles/colors';
 
 export const reviewListStyles = StyleSheet.create({
   reviewItem: {
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: Colors.borderLight,
   },
   reviewName: {
     fontWeight: 'bold',
@@ -12,12 +13,12 @@ export const reviewListStyles = StyleSheet.create({
   },
   reviewText: {
     fontSize: 14,
-    color: '#000',
+    color: Colors.black,
   },
   reviewData: {
     marginLeft: 20,
     fontSize: 13,
-    color: '#006CB1',
+    color: Colors.primary,
     justifyContent: 'center',
     gap: 8,
   },
@@ -27,13 +28,13 @@ export const reviewListStyles = StyleSheet.create({
   },
   reviewStarSelected: {
     fontSize: 16,
-    color: '#FFD700',
+    color: Colors.starGold,
     fontWeight: 'bold',
     marginHorizontal: 2,
   },
   reviewStarUnSelected: {
     fontSize: 16,
-    color: '#ccc',
+    color: Colors.gray,
     fontWeight: 'bold',
     marginHorizontal: 2,
   },
