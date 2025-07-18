@@ -106,6 +106,7 @@ const LoginScreen = () => {
         placeholder={textOnThePage.login}
         value={userLogin}
         onChangeText={setUserLogin}
+        autoCapitalize="none"
       />
       {emailError && (
         <Text style={{ color: Colors.error, marginBottom: 4 }}>
@@ -131,10 +132,12 @@ const LoginScreen = () => {
         value={userPhone}
         onChangeText={setUserPhone}
         keyboardType="phone-pad"
+        autoCapitalize="none"
       />
       <LoginTextInput
         placeholder={textOnThePage.password_1}
         value={password_1}
+        autoCapitalize="none"
         onChangeText={setPassword1}
         secureTextEntry={!showPassword}
         iconRight={{
@@ -149,6 +152,7 @@ const LoginScreen = () => {
             : textOnThePage.password_2
         }
         value={password_2}
+        autoCapitalize="none"
         onChangeText={setPassword2}
         secureTextEntry={!showPassword2}
         iconRight={{
