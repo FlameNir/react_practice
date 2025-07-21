@@ -17,6 +17,7 @@ import { ReviewModal } from '@components/ReviewModal';
 //import { DeviceInfo } from 'react-native/types_generated/index';
 import { useFocusEffect } from '@react-navigation/native';
 import { SortModal } from '@components/SortModal';
+import { URLs } from '@constants/urls';
 
 const screenWidth = Dimensions.get('window').width;
 type Review = {
@@ -69,7 +70,7 @@ const ReviewsScreen = () => {
   };
   //Основная функция, полчения данных
   const fetchData = () => {
-    fetch('https://gboinform.ru/score.php') //Возврат Promise
+    fetch(URLs.scorePage) //Возврат Promise
       .then(response => response.json()) //работа с Promise
       .then(data => {
         const filtered = data.filter((item: any) => item.agnks === 449035);
@@ -107,7 +108,7 @@ const ReviewsScreen = () => {
     //const id = 33
     setUser(37); // - Это ID куда я оставляю свой комент
     const agnks = 449035; // ---?????
-    const response = await fetch('https://gboinform.ru/set_score.php', {
+    const response = await fetch(URLs.setScorePage, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

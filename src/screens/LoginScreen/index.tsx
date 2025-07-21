@@ -7,9 +7,11 @@ import {
   Image,
   SafeAreaView,
   View,
+  Alert,
 } from 'react-native';
 import { Colors } from '@styles/colors';
 import { styles } from './styles.ts';
+import { URLs } from '@constants/urls';
 
 const textOnThePage = {
   login: 'Логин',
@@ -72,6 +74,27 @@ const isValidPassword = (password: string) => {
   return passwordRegex.test(password);
 };
 const LoginScreen = () => {
+  const [alertSpam, setAlertSpam] = useState('');
+  const SendData = async () => {
+    const response = await fetch(URLs.setRegisterPage, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: userEmail,
+        name: userLogin,
+        phone: userPhone,
+        password: password_1,
+      }),
+    });
+
+    const result = await response.text();
+    setAlertSpam(result);
+    console.log('Ответ от сервера:', result);
+    //Alert.alert(result);
+  };
+
   const [userLogin, setUserLogin] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
@@ -97,17 +120,16 @@ const LoginScreen = () => {
     setPasswordError(passwordFlag);
     setEmailError(emailFlag);
     setPhoneError(phoneFlag);
-
+    console.log(
+      'passwordMatchFlag || emailError || phoneError || passwordFlag',
+    );
+    console.log(passwordMatchFlag, emailError, phoneError, passwordFlag);
     if (passwordMatchFlag || emailError || phoneError || passwordFlag) {
+      console.log('Ошибка');
       return;
     }
-
-    console.log('Данные с регистрации:', {
-      login: userLogin,
-      email: userEmail,
-      phone: userPhone,
-      password: password_1,
-    });
+    SendData();
+    Alert.alert(alertSpam);
   };
 
   return (
