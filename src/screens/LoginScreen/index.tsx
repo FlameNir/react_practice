@@ -18,7 +18,11 @@ const textOnThePage = {
   password_1: 'Пароль',
   password_2: 'Повторите пароль',
   buttonText: 'Зарегистрироваться',
-  errrorText: 'Пароли не совпадают',
+  errorPassword:
+    'Пароль должен содержать не менее 3 символов и не включать пробелы.',
+  errorTextPasswordMatc: 'Пароли не совпадают',
+  errorPhone: 'Некорректный телефон',
+  errorEmail: 'Некорректный email',
 };
 
 interface LoginTextInputProps extends TextInputProps {
@@ -55,38 +59,48 @@ const LoginTextInput = ({ iconRight, ...props }: LoginTextInputProps) => {
 };
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+const phoneRegex = /^(?:\+7|8)\d{10}$/;
+const passwordRegex = /^[^\s]{3,}$/;
 
 const isValidEmail = (email: string) => {
-  return emailRegex.test(email.trim());
+  return emailRegex.test(email);
 };
-
+const isValidPhone = (phone: string) => {
+  return phoneRegex.test(phone);
+};
+const isValidPassword = (password: string) => {
+  return passwordRegex.test(password);
+};
 const LoginScreen = () => {
   const [userLogin, setUserLogin] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
 
   const [userPhone, setUserPhone] = useState('');
+  const [phoneError, setPhoneError] = useState(false);
+
   const [password_1, setPassword1] = useState('');
   const [password_2, setPassword2] = useState('');
-  const [passwordsMatchError, setPasswordsMatchError] = useState(false);
+  const [passwordMatchError, setPasswordMatchError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
 
   const handleRegister = () => {
-    const isEmailValid = emailRegex.test(userEmail.trim());
+    setUserPhone(userPhone.trim());
+    setUserEmail(userEmail.trim());
+    const passwordMatchFlag = password_1 !== password_2;
+    const passwordFlag = !isValidPassword(password_1);
+    const emailFlag = !isValidEmail(userEmail);
+    const phoneFlag = !isValidPhone(userPhone);
+    setPasswordMatchError(passwordMatchFlag);
+    setPasswordError(passwordFlag);
+    setEmailError(emailFlag);
+    setPhoneError(phoneFlag);
 
-    if (!isEmailValid) {
-      setEmailError(true);
+    if (passwordMatchFlag || emailError || phoneError || passwordFlag) {
       return;
     }
-
-    if (password_1 !== password_2) {
-      setPasswordsMatchError(true);
-      setPassword2('');
-      return;
-    }
-
-    setPasswordsMatchError(false);
 
     console.log('Данные с регистрации:', {
       login: userLogin,
@@ -98,19 +112,20 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image
+      {/* <Image
         source={require('@images/gazprom_logo1.png')}
         style={styles.logo}
-      />
+      /> */}
       <LoginTextInput
         placeholder={textOnThePage.login}
         value={userLogin}
+        style={{ marginTop: 24 }}
         onChangeText={setUserLogin}
         autoCapitalize="none"
       />
       {emailError && (
         <Text style={{ color: Colors.error, marginBottom: 4 }}>
-          Некорректный email
+          {textOnThePage.errorEmail}
         </Text>
       )}
       <LoginTextInput
@@ -126,14 +141,29 @@ const LoginScreen = () => {
           borderColor: emailError ? Colors.error : Colors.primary,
         }}
       />
-
+      {phoneError && (
+        <Text style={{ color: Colors.error, marginBottom: 4 }}>
+          {textOnThePage.errorPhone}
+        </Text>
+      )}
       <LoginTextInput
         placeholder={textOnThePage.phoneNumber}
         value={userPhone}
-        onChangeText={setUserPhone}
+        onChangeText={text => {
+          setUserPhone(text);
+          setPhoneError(false);
+        }}
         keyboardType="phone-pad"
         autoCapitalize="none"
+        style={{
+          borderColor: phoneError ? Colors.error : Colors.primary,
+        }}
       />
+      {passwordError && (
+        <Text style={{ color: Colors.error, marginBottom: 4 }}>
+          {textOnThePage.errorPassword}
+        </Text>
+      )}
       <LoginTextInput
         placeholder={textOnThePage.password_1}
         value={password_1}
@@ -147,8 +177,8 @@ const LoginScreen = () => {
       />
       <LoginTextInput
         placeholder={
-          passwordsMatchError
-            ? textOnThePage.errrorText
+          passwordMatchError
+            ? textOnThePage.errorTextPasswordMatc
             : textOnThePage.password_2
         }
         value={password_2}
@@ -160,7 +190,7 @@ const LoginScreen = () => {
           onPress: () => setShowPassword2(!showPassword2),
         }}
         style={{
-          borderColor: passwordsMatchError ? Colors.error : Colors.primary,
+          borderColor: passwordMatchError ? Colors.error : Colors.primary,
         }}
       />
 

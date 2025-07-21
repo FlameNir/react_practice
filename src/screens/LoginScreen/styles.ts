@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 32,
     justifyContent: 'flex-start',
     backgroundColor: Colors.white,
+    //borderWidth: 2,
     //backgroundColor: "#F5F9FC",
   },
   logo: {
@@ -20,8 +21,8 @@ export const styles = StyleSheet.create({
     borderColor: Colors.primary,
     borderRadius: 6,
     paddingHorizontal: 12,
-    paddingVertical: 10,
-    marginBottom: 12,
+    paddingVertical: 12,
+    //marginBottom: 12,
     fontSize: 16,
   },
   loginButton: {
@@ -30,21 +31,10 @@ export const styles = StyleSheet.create({
     //width: 300,
     paddingVertical: 12,
     alignItems: 'center',
-    marginVertical: 10,
   },
   loginButtonText: {
     color: Colors.primary,
     fontWeight: 'bold',
     fontSize: 16,
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 40,
-    width: Metrics.screenWidth,
-    alignItems: 'center',
-  },
-  metaText: {
-    color: Colors.gray,
-    fontSize: 12,
   },
 });
