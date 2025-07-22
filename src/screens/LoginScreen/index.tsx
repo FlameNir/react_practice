@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   View,
   Alert,
+  InteractionManager,
 } from 'react-native';
 import { Colors } from '@styles/colors';
 import { styles } from './styles.ts';
@@ -74,7 +75,6 @@ const isValidPassword = (password: string) => {
   return passwordRegex.test(password);
 };
 const LoginScreen = () => {
-  const [alertSpam, setAlertSpam] = useState('');
   const SendData = async () => {
     const response = await fetch(URLs.setRegisterPage, {
       method: 'POST',
@@ -90,9 +90,21 @@ const LoginScreen = () => {
     });
 
     const result = await response.text();
-    setAlertSpam(result);
     console.log('Ответ от сервера:', result);
-    //Alert.alert(result);
+    switch (result) {
+      case '\r\n"Email_Exists"':
+        Alert.alert('Этот email уже зарегистрирован');
+        break;
+      case '\r\n"Login_Exists"':
+        Alert.alert('Такое имя пользователя уже зарегестрировано');
+        break;
+      //\r\n"Phone_Exists"
+      case '\r\n"Phone_Exists"':
+        Alert.alert('Такой номер уже используется при регистрации');
+        break;
+      default:
+        Alert.alert('Регистрация успешна');
+    }
   };
 
   const [userLogin, setUserLogin] = useState('');
@@ -109,7 +121,7 @@ const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     setUserPhone(userPhone.trim());
     setUserEmail(userEmail.trim());
     const passwordMatchFlag = password_1 !== password_2;
@@ -129,7 +141,7 @@ const LoginScreen = () => {
       return;
     }
     SendData();
-    Alert.alert(alertSpam);
+    //Alert.alert(alertSpam);
   };
 
   return (
@@ -224,3 +236,4 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
+`1`;
