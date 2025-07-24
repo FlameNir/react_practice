@@ -12,6 +12,7 @@ import {
 import { Colors } from '@styles/colors';
 import { styles } from './styles.ts';
 import { URLs } from '@constants/urls';
+import RegisterTextInput from '@components/RegisterTextInput.tsx'; // путь зависит от структуры
 
 const textOnThePage = {
   login: 'Логин',
@@ -25,39 +26,6 @@ const textOnThePage = {
   errorTextPasswordMatc: 'Пароли не совпадают',
   errorPhone: 'Некорректный телефон',
   errorEmail: 'Некорректный email',
-};
-
-interface RegisterTextInputProps extends TextInputProps {
-  iconRight?: {
-    visible: boolean;
-    onPress: () => void;
-  };
-}
-
-const RegisterTextInput = ({ iconRight, ...props }: RegisterTextInputProps) => {
-  return (
-    <View style={{ position: 'relative', marginBottom: 12 }}>
-      <TextInput
-        {...props}
-        style={[styles.input, props.style]}
-        placeholderTextColor={Colors.textPlaceholder}
-      />
-      {iconRight && (
-        <TouchableOpacity
-          onPress={iconRight.onPress}
-          style={{
-            position: 'absolute',
-            right: 12,
-            top: 12,
-          }}
-        >
-          <Text style={{ color: Colors.primary }}>
-            {iconRight.visible ? '❌' : '✅'}
-          </Text>
-        </TouchableOpacity>
-      )}
-    </View>
-  );
 };
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;

@@ -11,35 +11,7 @@ import {
 import { styles } from './styles.ts';
 import { Colors } from '@styles/colors';
 import { URLs } from '@constants/urls';
-
-interface RegisterTextInputProps extends TextInputProps {
-  iconRight?: {
-    visible: boolean;
-    onPress: () => void;
-  };
-}
-
-const RegisterTextInput = ({ iconRight, ...props }: RegisterTextInputProps) => {
-  return (
-    <View style={{ position: 'relative', marginBottom: 12 }}>
-      <TextInput
-        {...props}
-        style={[styles.input, props.style]}
-        placeholderTextColor={Colors.textPlaceholder}
-      />
-      {iconRight && (
-        <TouchableOpacity
-          onPress={iconRight.onPress}
-          style={{ position: 'absolute', right: 12, top: 12 }}
-        >
-          <Text style={{ color: Colors.primary }}>
-            {iconRight.visible ? '❌' : '✅'}
-          </Text>
-        </TouchableOpacity>
-      )}
-    </View>
-  );
-};
+import RegisterTextInput from '@components/RegisterTextInput.tsx'; // путь зависит от структуры
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
@@ -49,7 +21,6 @@ const isValidEmail = (email: string) => {
 
 const LoginScreen = () => {
   const [logOrEmail, setLogOrEmail] = useState('');
-  const [loginEmailFlag, setLoginEmailFlag] = useState(false);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loginEnailError, setLoginEmailError] = useState(false);
@@ -58,7 +29,6 @@ const LoginScreen = () => {
   const handleLogin = () => {
     const isEmail = isValidEmail(logOrEmail);
 
-    // базовая валидация
     if (!logOrEmail.trim()) {
       setLoginEmailError(true);
       return;
@@ -69,13 +39,11 @@ const LoginScreen = () => {
       return;
     }
 
-    // запрет на @ и . если это логин, а не email
     if (!isEmail && (logOrEmail.includes('@') || logOrEmail.includes('.'))) {
       setLoginEmailError(true);
       return;
     }
 
-    // вызов отправки
     SendData(logOrEmail, password, isEmail);
   };
 
