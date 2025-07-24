@@ -26,7 +26,7 @@ const LoginScreen = () => {
   const [loginEnailError, setLoginEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const isEmail = isValidEmail(logOrEmail);
 
     if (!logOrEmail.trim()) {
