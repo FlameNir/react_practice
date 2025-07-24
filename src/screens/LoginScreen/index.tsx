@@ -1,41 +1,25 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import {
   Text,
   TextInput,
   TextInputProps,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   View,
   Alert,
-  InteractionManager,
 } from 'react-native';
-import { Colors } from '@styles/colors';
 import { styles } from './styles.ts';
+import { Colors } from '@styles/colors';
 import { URLs } from '@constants/urls';
 
-const textOnThePage = {
-  login: 'Логин',
-  email: 'Email',
-  phoneNumber: 'Номер телефона',
-  password_1: 'Пароль',
-  password_2: 'Повторите пароль',
-  buttonText: 'Зарегистрироваться',
-  errorPassword:
-    'Пароль должен содержать не менее 3 символов и не включать пробелы.',
-  errorTextPasswordMatc: 'Пароли не совпадают',
-  errorPhone: 'Некорректный телефон',
-  errorEmail: 'Некорректный email',
-};
-
-interface LoginTextInputProps extends TextInputProps {
+interface RegisterTextInputProps extends TextInputProps {
   iconRight?: {
     visible: boolean;
     onPress: () => void;
   };
 }
 
-const LoginTextInput = ({ iconRight, ...props }: LoginTextInputProps) => {
+const RegisterTextInput = ({ iconRight, ...props }: RegisterTextInputProps) => {
   return (
     <View style={{ position: 'relative', marginBottom: 12 }}>
       <TextInput
@@ -46,11 +30,7 @@ const LoginTextInput = ({ iconRight, ...props }: LoginTextInputProps) => {
       {iconRight && (
         <TouchableOpacity
           onPress={iconRight.onPress}
-          style={{
-            position: 'absolute',
-            right: 12,
-            top: 12,
-          }}
+          style={{ position: 'absolute', right: 12, top: 12 }}
         >
           <Text style={{ color: Colors.primary }}>
             {iconRight.visible ? '❌' : '✅'}
@@ -62,178 +42,112 @@ const LoginTextInput = ({ iconRight, ...props }: LoginTextInputProps) => {
 };
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-const phoneRegex = /^(?:\+7|8)\d{10}$/;
-const passwordRegex = /^[^\s]{3,}$/;
 
 const isValidEmail = (email: string) => {
   return emailRegex.test(email);
 };
-const isValidPhone = (phone: string) => {
-  return phoneRegex.test(phone);
-};
-const isValidPassword = (password: string) => {
-  return passwordRegex.test(password);
-};
+
 const LoginScreen = () => {
-  const SendData = async () => {
-    const response = await fetch(URLs.setRegisterPage, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: userEmail,
-        name: userLogin,
-        phone: userPhone,
-        password: password_1,
-      }),
-    });
-
-    const result = await response.text();
-    console.log('Ответ от сервера:', result);
-    switch (result) {
-      case '\r\n"Email_Exists"':
-        Alert.alert('Этот email уже зарегистрирован');
-        break;
-      case '\r\n"Login_Exists"':
-        Alert.alert('Такое имя пользователя уже зарегестрировано');
-        break;
-      //\r\n"Phone_Exists"
-      case '\r\n"Phone_Exists"':
-        Alert.alert('Такой номер уже используется при регистрации');
-        break;
-      default:
-        Alert.alert('Регистрация успешна');
-    }
-  };
-
-  const [userLogin, setUserLogin] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [emailError, setEmailError] = useState(false);
-
-  const [userPhone, setUserPhone] = useState('');
-  const [phoneError, setPhoneError] = useState(false);
-
-  const [password_1, setPassword1] = useState('');
-  const [password_2, setPassword2] = useState('');
-  const [passwordMatchError, setPasswordMatchError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [logOrEmail, setLogOrEmail] = useState('');
+  const [loginEmailFlag, setLoginEmailFlag] = useState(false);
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
+  const [loginEnailError, setLoginEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
-  const handleRegister = async () => {
-    setUserPhone(userPhone.trim());
-    setUserEmail(userEmail.trim());
-    const passwordMatchFlag = password_1 !== password_2;
-    const passwordFlag = !isValidPassword(password_1);
-    const emailFlag = !isValidEmail(userEmail);
-    const phoneFlag = !isValidPhone(userPhone);
-    setPasswordMatchError(passwordMatchFlag);
-    setPasswordError(passwordFlag);
-    setEmailError(emailFlag);
-    setPhoneError(phoneFlag);
-    console.log(
-      'passwordMatchFlag || emailError || phoneError || passwordFlag',
-    );
-    console.log(passwordMatchFlag, emailError, phoneError, passwordFlag);
-    if (passwordMatchFlag || emailError || phoneError || passwordFlag) {
-      console.log('Ошибка');
+  const handleLogin = () => {
+    const isEmail = isValidEmail(logOrEmail);
+
+    // базовая валидация
+    if (!logOrEmail.trim()) {
+      setLoginEmailError(true);
       return;
     }
-    SendData();
-    //Alert.alert(alertSpam);
+
+    if (!password.trim()) {
+      setPasswordError(true);
+      return;
+    }
+
+    // запрет на @ и . если это логин, а не email
+    if (!isEmail && (logOrEmail.includes('@') || logOrEmail.includes('.'))) {
+      setLoginEmailError(true);
+      return;
+    }
+
+    // вызов отправки
+    SendData(logOrEmail, password, isEmail);
+  };
+
+  const SendData = async (
+    loginOrEmail: string,
+    password: string,
+    isEmail: boolean,
+  ) => {
+    // const body = isEmail
+    //   ? { email: loginOrEmail, password }
+    //   : { name: loginOrEmail, password };
+    // const response = await fetch(URLs.loginPage, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(body),
+    // });
+    // const result = await response.text();
+    // console.log('Ответ от сервера:', result);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Image
-        source={require('@images/gazprom_logo1.png')}
-        style={styles.logo}
-      /> */}
-      <LoginTextInput
-        placeholder={textOnThePage.login}
-        value={userLogin}
-        style={{ marginTop: 24 }}
-        onChangeText={setUserLogin}
-        autoCapitalize="none"
-      />
-      {emailError && (
+      {loginEnailError && (
         <Text style={{ color: Colors.error, marginBottom: 4 }}>
-          {textOnThePage.errorEmail}
+          Некорректный логин. В логине не может присутствовать специальных
+          символов @ и .
         </Text>
       )}
-      <LoginTextInput
-        placeholder="Email"
-        value={userEmail}
+
+      <RegisterTextInput
+        placeholder="Email или номер"
+        value={logOrEmail}
         onChangeText={text => {
-          setUserEmail(text);
-          setEmailError(false);
+          setLogOrEmail(text);
+          setLoginEmailError(false);
         }}
         keyboardType="email-address"
         autoCapitalize="none"
         style={{
-          borderColor: emailError ? Colors.error : Colors.primary,
+          borderColor: loginEnailError ? Colors.error : Colors.primary,
+          marginTop: 12,
         }}
       />
-      {phoneError && (
-        <Text style={{ color: Colors.error, marginBottom: 4 }}>
-          {textOnThePage.errorPhone}
-        </Text>
-      )}
-      <LoginTextInput
-        placeholder={textOnThePage.phoneNumber}
-        value={userPhone}
+
+      <RegisterTextInput
+        placeholder="Пароль"
+        value={password}
         onChangeText={text => {
-          setUserPhone(text);
-          setPhoneError(false);
+          setPassword(text);
+          setPasswordError(false);
         }}
-        keyboardType="phone-pad"
         autoCapitalize="none"
-        style={{
-          borderColor: phoneError ? Colors.error : Colors.primary,
-        }}
-      />
-      {passwordError && (
-        <Text style={{ color: Colors.error, marginBottom: 4 }}>
-          {textOnThePage.errorPassword}
-        </Text>
-      )}
-      <LoginTextInput
-        placeholder={textOnThePage.password_1}
-        value={password_1}
-        autoCapitalize="none"
-        onChangeText={setPassword1}
         secureTextEntry={!showPassword}
         iconRight={{
           visible: showPassword,
           onPress: () => setShowPassword(!showPassword),
         }}
+        style={{ borderColor: passwordError ? Colors.error : Colors.primary }}
       />
-      <LoginTextInput
-        placeholder={
-          passwordMatchError
-            ? textOnThePage.errorTextPasswordMatc
-            : textOnThePage.password_2
-        }
-        value={password_2}
-        autoCapitalize="none"
-        onChangeText={setPassword2}
-        secureTextEntry={!showPassword2}
-        iconRight={{
-          visible: showPassword2,
-          onPress: () => setShowPassword2(!showPassword2),
-        }}
-        style={{
-          borderColor: passwordMatchError ? Colors.error : Colors.primary,
-        }}
-      />
+      {passwordError && (
+        <Text style={{ color: Colors.error, marginBottom: 4 }}>
+          Некорректный пароль
+        </Text>
+      )}
 
-      <TouchableOpacity style={styles.loginButton} onPress={handleRegister}>
-        <Text style={styles.loginButtonText}>{textOnThePage.buttonText}</Text>
+      <TouchableOpacity style={styles.registerButton} onPress={handleLogin}>
+        <Text style={styles.registerButtonText}>Войти</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
 
 export default LoginScreen;
-`1`;

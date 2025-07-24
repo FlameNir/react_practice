@@ -5,6 +5,7 @@ import { View, Button, StyleSheet } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 
 import ReviewScreen from '@screens/ReviewScreen';
+import RegistrationScreen from '@screens/RegistrationScreen';
 import LoginScreen from '@screens/LoginScreen';
 
 enableScreens();
@@ -12,6 +13,7 @@ enableScreens();
 export type RootStackParamList = {
   Home: undefined;
   Reviews: undefined;
+  Register: undefined;
   Login: undefined;
 };
 
@@ -23,6 +25,10 @@ const HomeScreen = ({ navigation }: any) => {
       <Button
         title="Перейти к отзывам"
         onPress={() => navigation.navigate('Reviews')}
+      />
+      <Button
+        title="Перейти к Регистрации"
+        onPress={() => navigation.navigate('Register')}
       />
       <Button
         title="Перейти к Логину"
@@ -47,6 +53,11 @@ const App = () => {
           options={{ title: 'Отзывы' }}
         />
         <Stack.Screen
+          name="Register"
+          component={RegistrationScreen}
+          options={{ title: 'Регистрация' }}
+        />
+        <Stack.Screen
           name="Login"
           component={LoginScreen}
           options={{ title: 'Логин' }}
@@ -62,6 +73,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+    marginBottom: 20,
   },
   title: {
     fontSize: 24,
