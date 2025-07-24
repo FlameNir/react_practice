@@ -11,7 +11,7 @@ import {
 import { styles } from './styles.ts';
 import { Colors } from '@styles/colors';
 import { URLs } from '@constants/urls';
-import RegisterTextInput from '@components/RegisterTextInput.tsx'; // путь зависит от структуры
+import RegisterTextInput from '@components/RegisterTextInput.tsx';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
