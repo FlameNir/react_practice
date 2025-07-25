@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Button, StyleSheet } from 'react-native';
@@ -7,7 +7,7 @@ import { enableScreens } from 'react-native-screens';
 import ReviewScreen from '@screens/ReviewScreen';
 import RegistrationScreen from '@screens/RegistrationScreen';
 import LoginScreen from '@screens/LoginScreen';
-
+import ErrorModal from '@components/ErrorModal.tsx';
 enableScreens();
 
 export type RootStackParamList = {
@@ -20,8 +20,10 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const HomeScreen = ({ navigation }: any) => {
+  const [errorVisible, setErrorVisible] = useState(false);
   return (
     <View style={styles.container}>
+      <Button title="Показать ошибку" onPress={() => setErrorVisible(true)} />
       <Button
         title="Перейти к отзывам"
         onPress={() => navigation.navigate('Reviews')}
@@ -33,6 +35,11 @@ const HomeScreen = ({ navigation }: any) => {
       <Button
         title="Перейти к Логину"
         onPress={() => navigation.navigate('Login')}
+      />
+      <ErrorModal
+        visible={errorVisible}
+        errorText="Что-то пошло не так при загрузке!"
+        onClose={() => setErrorVisible(false)}
       />
     </View>
   );
@@ -73,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-    marginBottom: 20,
+    gap: 20,
   },
   title: {
     fontSize: 24,

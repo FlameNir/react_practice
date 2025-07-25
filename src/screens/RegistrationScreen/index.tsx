@@ -13,7 +13,7 @@ import { Colors } from '@styles/colors';
 import { styles } from './styles.ts';
 import { URLs } from '@constants/urls';
 import RegisterTextInput from '@components/RegisterTextInput.tsx'; // путь зависит от структуры
-
+import { ErrorModal } from '@components/ErrorModal.tsx';
 const textOnThePage = {
   login: 'Логин',
   email: 'Email',
@@ -56,22 +56,24 @@ const RegisterScreen = () => {
       }),
     });
 
-    const result = await response.text();
+    const result = await response.json();
+
     console.log('Ответ от сервера:', result);
-    switch (result) {
-      case '\r\n"Email_Exists"':
-        Alert.alert('Этот email уже зарегистрирован');
-        break;
-      case '\r\n"Login_Exists"':
-        Alert.alert('Такое имя пользователя уже зарегестрировано');
-        break;
-      //\r\n"Phone_Exists"
-      case '\r\n"Phone_Exists"':
-        Alert.alert('Такой номер уже используется при регистрации');
-        break;
-      default:
-        Alert.alert('Регистрация успешна');
-    }
+    console.log(response);
+    setError(result);
+    // switch (result) {
+    //   case 'Email_Exists':
+    //     Alert.alert('Этот email уже зарегистрирован');
+    //     break;
+    //   case 'Login_Exists':
+    //     Alert.alert('Такое имя пользователя уже зарегестрировано');
+    //     break;
+    //   case 'Phone_Exists':
+    //     Alert.alert('Такой номер уже используется при регистрации');
+    //     break;
+    //   default:
+    //     Alert.alert('Регистрация успешна');
+    // }
   };
 
   const [userLogin, setUserLogin] = useState('');
@@ -87,6 +89,8 @@ const RegisterScreen = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+
+  const [error, setError] = useState('');
 
   const handleRegister = async () => {
     setUserPhone(userPhone.trim());
@@ -200,6 +204,11 @@ const RegisterScreen = () => {
           {textOnThePage.buttonText}
         </Text>
       </TouchableOpacity>
+      <ErrorModal
+        visible={!!error}
+        errorText={error}
+        onClose={() => setError('')}
+      />
     </SafeAreaView>
   );
 };

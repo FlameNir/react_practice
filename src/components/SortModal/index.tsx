@@ -16,12 +16,12 @@ type Props = {
   onClose: () => void;
 };
 
-export const SortModal: React.FC<Props> = ({
+export const SortModal = ({
   visible,
   sortOption,
   setSortOption,
   onClose,
-}) => {
+}: Props) => {
   const applyAndClose = () => {
     onClose();
   };

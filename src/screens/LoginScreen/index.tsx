@@ -66,7 +66,7 @@ const LoginScreen = () => {
       },
       body: JSON.stringify(body),
     });
-    const result = await response.text();
+    const result = await response.json();
     console.log('Ответ от сервера:', result);
   };
 
