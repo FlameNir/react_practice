@@ -52,18 +52,22 @@ const LoginScreen = () => {
     password: string,
     isEmail: boolean,
   ) => {
-    // const body = isEmail
-    //   ? { email: loginOrEmail, password }
-    //   : { name: loginOrEmail, password };
-    // const response = await fetch(URLs.loginPage, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(body),
-    // });
-    // const result = await response.text();
-    // console.log('Ответ от сервера:', result);
+    const body = isEmail
+      ? { email: loginOrEmail, password }
+      : { login: loginOrEmail, password };
+    console.log('Отправка на сервер:', {
+      url: URLs.LoginPage,
+      body: body,
+    });
+    const response = await fetch(URLs.LoginPage, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    const result = await response.text();
+    console.log('Ответ от сервера:', result);
   };
 
   return (
